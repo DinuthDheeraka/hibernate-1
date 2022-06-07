@@ -15,13 +15,13 @@ public class FactoryConfiguration {
     private static FactoryConfiguration factoryConfiguration;
     SessionFactory sessionFactory;
 
-    private FactoryConfiguration(){
-        Configuration configuration = new Configuration().configure().addAnnotatedClass(Customer.class);
+    private FactoryConfiguration(Class c){
+        Configuration configuration = new Configuration().configure().addAnnotatedClass(c);
         sessionFactory = configuration.buildSessionFactory();
     }
 
-    public static FactoryConfiguration getInstance(){
-        return factoryConfiguration==null? factoryConfiguration = new FactoryConfiguration():factoryConfiguration;
+    public static FactoryConfiguration getInstance(Class c){
+        return factoryConfiguration==null? factoryConfiguration = new FactoryConfiguration(c):factoryConfiguration;
     }
 
     public Session getSession(){
