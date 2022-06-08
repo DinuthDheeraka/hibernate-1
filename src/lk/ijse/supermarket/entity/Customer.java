@@ -10,10 +10,10 @@ import lk.ijse.supermarket.embeded.Address;
 import lk.ijse.supermarket.embeded.Name;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -27,17 +27,20 @@ public class Customer {
     private Double salary;
     @CreationTimestamp
     private LocalDate registeredDate;
+    @OneToMany(mappedBy = "customer")
+    private List<Orders> orders = new ArrayList();
 
     public Customer() {
     }
 
-    public Customer(String id, Name name, Address address, String contactNumber, Double salary, LocalDate registeredDate) {
+    public Customer(String id, Name name, Address address, String contactNumber, Double salary, LocalDate registeredDate,List<Orders> orders) {
         this.setId(id);
         this.setName(name);
         this.setAddress(address);
         this.setContactNumber(contactNumber);
         this.setSalary(salary);
         this.setRegisteredDate(registeredDate);
+        this.setOrders(orders);
     }
 
 
@@ -87,5 +90,13 @@ public class Customer {
 
     public void setRegisteredDate(LocalDate registeredDate) {
         this.registeredDate = registeredDate;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 }

@@ -8,10 +8,10 @@ package lk.ijse.supermarket.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Item {
@@ -25,11 +25,26 @@ public class Item {
     private double discount;
     @CreationTimestamp
     private LocalDate addedDate;
+    @OneToOne
+    private Supplier supplier;
+    @OneToMany(mappedBy = "item")
+    private List<OrderDetail> orderDetails = new ArrayList();
 
     public Item() {
+    }//0756122196
+
+    public Item(String itemCode, String description, String packSize, double QOH, double unitPrice, double discount, LocalDate addedDate, Supplier supplier, List<Orders> orders) {
+        this.itemCode = itemCode;
+        this.description = description;
+        this.packSize = packSize;
+        this.QOH = QOH;
+        this.unitPrice = unitPrice;
+        this.discount = discount;
+        this.addedDate = addedDate;
+        this.supplier = supplier;
     }
 
-    public Item(String itemCode, String description,String packSize,double QOH, double unitPrice, double discount, LocalDate addedDate) {
+    public Item(String itemCode, String description, String packSize, double QOH, double unitPrice, double discount, LocalDate addedDate, Supplier supplier) {
         this.setItemCode(itemCode);
         this.setDescription(description);
         this.setPackSize(packSize);
@@ -37,15 +52,17 @@ public class Item {
         this.setUnitPrice(unitPrice);
         this.setDiscount(discount);
         this.setAddedDate(addedDate);
+        this.setSupplier(supplier);
     }
 
-    public Item(String itemCode, String description, String packSize,double QOH, double unitPrice, double discount) {
+    public Item(String itemCode, String description, String packSize,double QOH, double unitPrice, double discount,Supplier supplier) {
         this.itemCode = itemCode;
         this.description = description;
         this.packSize = packSize;
         this.QOH = QOH;
         this.unitPrice = unitPrice;
         this.discount = discount;
+        this.supplier = supplier;
     }
 
     public String getItemCode() {
@@ -102,5 +119,13 @@ public class Item {
 
     public void setPackSize(String packSize) {
         this.packSize = packSize;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }
